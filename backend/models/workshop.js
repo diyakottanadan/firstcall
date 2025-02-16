@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-var forestSchema = new mongoose.Schema({
+var workShopSchema = new mongoose.Schema({
     country: {
         type: String,
         default: "India"
@@ -16,9 +16,17 @@ var forestSchema = new mongoose.Schema({
         type: String,
         required: true,
     },
+    license: {
+        type: String,
+        required: true,
+    },
     userid: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    status: {
+        type: String,
+        default: "pending"
     }
 })
-module.exports = mongoose.model('Forest', forestSchema);
+module.exports = mongoose.model('Workshop', workShopSchema);

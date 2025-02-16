@@ -1,7 +1,13 @@
+import 'package:firstcall/pages/admin/mainpage.dart';
+import 'package:firstcall/pages/forest/mainpage.dart';
 import 'package:firstcall/pages/forestform.dart';
+import 'package:firstcall/pages/hospital/mainpage.dart';
 import 'package:firstcall/pages/hospitalform.dart';
+import 'package:firstcall/pages/police/mainpage.dart';
 import 'package:firstcall/pages/policeform.dart';
+import 'package:firstcall/pages/rescue/mainpage.dart';
 import 'package:firstcall/pages/rescueform.dart';
+import 'package:firstcall/pages/workshop/mainpage.dart';
 import 'package:firstcall/pages/workshopform.dart';
 import 'package:flutter/material.dart';
 import 'onboarding_screen.dart';
@@ -9,7 +15,7 @@ import 'pages/college/mainpage.dart';
 import 'pages/college_registration.dart';
 import 'pages/customer_registration.dart';
 import 'pages/login.dart';
-import 'pages/student/mainpage.dart';
+import 'pages/customer/mainpage.dart';
 import 'pages/usertype.dart';
 
 void main() {
@@ -46,16 +52,20 @@ class MyApp extends StatelessWidget {
         '/onboarding': (context) => OnboardingScreen(),
         '/login': (context) => LoginPage(),
         '/usertype': (context) => UserTypePage(),
-        '/user_registration': (context) => UserFormPage(),
+        '/user_registration': (context) => CustomerRegistrationPage(),
         '/college_registration': (context) => CollegeRegistration(),
-        '/studentpage': (context) => MainPage(),
-        '/collegepage': (context) => CollegeMain(),
         '/hospital_registration': (context) => HospitalFormPage(),
         '/forest_registration': (context) => ForestFormPage(),
         '/police_registration': (context) => PoliceRegistrationForm(),
         '/rescue_registration': (context) => RescueFormPage(),
         '/workshop_registration': (context) => WorkshopFormPage(),
-
+        '/customer': (context) => CustomerMainPage(),
+        '/police': (context) => PoliceMainPage(),
+        '/hospital': (context) => HospitalMainPage(),
+        '/rescue': (context) => RescueMainPage(),
+        '/workshop': (context) => WorkshopMainPage(),
+        '/forest': (context) => ForestMainPage(),
+        '/admin': (context) => AdminMainPage(),
       },
     );
   }

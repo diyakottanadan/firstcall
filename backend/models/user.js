@@ -19,6 +19,12 @@ var userSchema= new mongoose.Schema({
         type:String,
         required:true
     },
+    district:{
+        type:String,
+    },
+    place:{
+        type:String,
+    },
     usertype:{
         type:String,
         // default:"user"

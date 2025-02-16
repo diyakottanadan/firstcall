@@ -1,8 +1,10 @@
 import 'dart:convert';
+import 'dart:io';
 
-// import 'package:demo/services/userservice.dart';
 import 'package:dio/dio.dart';
+import 'package:firstcall/services/userservice.dart';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
 class HospitalFormPage extends StatefulWidget {
   const HospitalFormPage({super.key});
@@ -24,7 +26,35 @@ class _HospitalFormPageState extends State<HospitalFormPage> {
   final _hospitalTypeController = TextEditingController();
   final _numberOfBedsController = TextEditingController();
   final _emergencyContactController = TextEditingController();
-  // UserService userService = UserService();
+  final _placeController = TextEditingController();
+  XFile? _imageFile;
+  bool _isLoading = false;
+  final List<String> items = [
+    'Alappuzha',
+    'Ernakulam',
+    'Idukki',
+    'Kannur',
+    'Kasaragod',
+    'Kollam',
+    'Kottayam',
+    'Kozhikode',
+    'Malappuram',
+    'Palakkad',
+    'Pathanamthitta',
+    'Thiruvananthapuram',
+    'Thrissur',
+    'Wayanad'
+  ];
+  String? district = "Alappuzha";
+  UserService userService = UserService();
+
+  Future<void> getImageFromGallery() async {
+    final ImagePicker picker = ImagePicker();
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      _imageFile = image;
+    });
+  }
 
   @override
   void dispose() {
@@ -38,38 +68,78 @@ class _HospitalFormPageState extends State<HospitalFormPage> {
     _hospitalTypeController.dispose();
     _numberOfBedsController.dispose();
     _emergencyContactController.dispose();
+    _placeController.dispose();
     super.dispose();
   }
 
   Future<void> _submitForm() async {
     if (_formKey.currentState!.validate()) {
-      // If the form is valid, show a success message
+      setState(() {
+        _isLoading = true;
+      });
+      // Form is valid, process the data
+      List<String>? s = _imageFile?.path.toString().split("/");
+      final bytes = await File(_imageFile!.path).readAsBytes();
+      final base64 = base64Encode(bytes);
+      var pic = "data:image/${s![s.length - 1].split(".")[1]};base64,$base64";
       var hospitalData = jsonEncode({
-        "hospital_name": _hospitalNameController.text,
+        "name": _hospitalNameController.text,
         "email": _emailController.text,
         "phone": _phoneController.text,
         "password": _passwordController.text,
-        "license_number": _licenseNumberController.text,
-        "address": _addressController.text,
-        "hospital_type": _hospitalTypeController.text,
-        "number_of_beds": _numberOfBedsController.text,
-        "emergency_contact": _emergencyContactController.text,
+        "license": pic,
         "usertype": "hospital",
+        "city": _placeController.text,
+        "district": district,
       });
       print(hospitalData);
-      // try {
-      //   final response = await userService.registerUser(hospitalData);
-      //   print(response.data);
-      //   ScaffoldMessenger.of(context).showSnackBar(
-      //     SnackBar(content: Text('Hospital Registration Successful!')),
-      //   );
-      // } on DioException catch (e) {
-      //   print(e.response!.data);
-      // }
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Error Registering Hospital')),
-      );
+      try {
+        final response = await userService.registerUser(hospitalData);
+        print(response.data);
+        setState(() {
+          _isLoading = false;
+        });
+        _showSuccessDialog();
+      } on DioException catch (e) {
+        setState(() {
+          _isLoading = false;
+        });
+        print(e.response);
+        if (e.response?.statusCode == 400) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Email already exists'),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('An error occurred. Please try again later.'),
+            ),
+          );
+        }
+      }
     }
+  }
+
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Registration Successful'),
+          content: Text('Your hospital has been registered successfully.'),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   @override
@@ -78,171 +148,182 @@ class _HospitalFormPageState extends State<HospitalFormPage> {
       appBar: AppBar(
         title: Text('Hospital Registration Form'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              // Hospital Name Field
-              TextFormField(
-                controller: _hospitalNameController,
-                decoration: InputDecoration(labelText: 'Hospital Name'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Hospital Name is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: SingleChildScrollView(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      // Hospital Name Field
+                      TextFormField(
+                        controller: _hospitalNameController,
+                        decoration: InputDecoration(labelText: 'Hospital Name'),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Hospital Name is required';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
 
-              // Email Field
-              TextFormField(
-                controller: _emailController,
-                decoration: InputDecoration(labelText: 'Email'),
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Email is required';
-                  }
-                  final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
-                  if (!emailRegex.hasMatch(value)) {
-                    return 'Enter a valid email';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      // Email Field
+                      TextFormField(
+                        controller: _emailController,
+                        decoration: InputDecoration(labelText: 'Email'),
+                        keyboardType: TextInputType.emailAddress,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Email is required';
+                          }
+                          final emailRegex = RegExp(r'^[^@]+@[^@]+\.[^@]+');
+                          if (!emailRegex.hasMatch(value)) {
+                            return 'Enter a valid email';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
 
-              // Phone Number Field
-              TextFormField(
-                controller: _phoneController,
-                decoration: InputDecoration(labelText: 'Phone Number'),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Phone number is required';
-                  }
-                  final phoneRegex = RegExp(r'^\d{10}$');
-                  if (!phoneRegex.hasMatch(value)) {
-                    return 'Enter a valid 10-digit phone number';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      // Phone Number Field
+                      TextFormField(
+                        controller: _phoneController,
+                        decoration: InputDecoration(labelText: 'Phone Number'),
+                        keyboardType: TextInputType.phone,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Phone number is required';
+                          }
+                          final phoneRegex = RegExp(r'^\d{10}$');
+                          if (!phoneRegex.hasMatch(value)) {
+                            return 'Enter a valid 10-digit phone number';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
 
-              // Password Field
-              TextFormField(
-                controller: _passwordController,
-                decoration: InputDecoration(labelText: 'Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Password is required';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters long';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      // Password Field
+                      TextFormField(
+                        controller: _passwordController,
+                        decoration: InputDecoration(labelText: 'Password'),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Password is required';
+                          }
+                          if (value.length < 6) {
+                            return 'Password must be at least 6 characters long';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
 
-              // Confirm Password Field
-              TextFormField(
-                controller: _confirmPasswordController,
-                decoration: InputDecoration(labelText: 'Confirm Password'),
-                obscureText: true,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Confirm password is required';
-                  }
-                  if (value != _passwordController.text) {
-                    return 'Passwords do not match';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      // Confirm Password Field
+                      TextFormField(
+                        controller: _confirmPasswordController,
+                        decoration:
+                            InputDecoration(labelText: 'Confirm Password'),
+                        obscureText: true,
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Confirm password is required';
+                          }
+                          if (value != _passwordController.text) {
+                            return 'Passwords do not match';
+                          }
+                          return null;
+                        },
+                      ),
 
-              // License Number Field
-              TextFormField(
-                controller: _licenseNumberController,
-                decoration: InputDecoration(labelText: 'License Number'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'License number is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      SizedBox(height: 16),
 
-              // Address Field
-              TextFormField(
-                controller: _addressController,
-                decoration: InputDecoration(labelText: 'Hospital Address'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Address is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      // Place Field
+                      TextFormField(
+                        controller: _placeController,
+                        decoration: InputDecoration(labelText: 'Place'),
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Place is required';
+                          }
+                          return null;
+                        },
+                      ),
 
-              // Hospital Type Field
-              TextFormField(
-                controller: _hospitalTypeController,
-                decoration: InputDecoration(labelText: 'Type of Hospital'),
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Hospital type is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      const SizedBox(height: 16.0),
+                      DropdownButtonFormField<String>(
+                        value: district,
+                        decoration: const InputDecoration(
+                          labelText: 'District',
+                          border: OutlineInputBorder(),
+                        ),
+                        items: items.map((String item) {
+                          return DropdownMenuItem<String>(
+                            value: item,
+                            child: Text(item),
+                          );
+                        }).toList(),
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            district = newValue;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please select your district';
+                          }
+                          return null;
+                        },
+                      ),
+                      SizedBox(height: 16),
+                      // Upload Proof
+                      GestureDetector(
+                        onTap: getImageFromGallery,
+                        child: Container(
+                          height: 60,
+                          decoration: BoxDecoration(
+                            border: Border.all(color: Colors.black),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              SizedBox(width: 10),
+                              Icon(Icons.image, color: Colors.black),
+                              SizedBox(width: 10),
+                              Text('Upload Proof',
+                                  style: TextStyle(color: Colors.black)),
+                            ],
+                          ),
+                        ),
+                      ),
+                      SizedBox(height: 16),
 
-              // Number of Beds Field
-              TextFormField(
-                controller: _numberOfBedsController,
-                decoration: InputDecoration(labelText: 'Number of Beds'),
-                keyboardType: TextInputType.number,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Number of beds is required';
-                  }
-                  return null;
-                },
-              ),
-              SizedBox(height: 16),
+                      // Display selected image
+                      Center(
+                        child: _imageFile == null
+                            ? Text('No image selected')
+                            : Image.file(
+                                File(_imageFile!.path),
+                                width: 360,
+                                height: 240,
+                              ),
+                      ),
+                      SizedBox(height: 16),
 
-              // Emergency Contact Field
-              TextFormField(
-                controller: _emergencyContactController,
-                decoration: InputDecoration(labelText: 'Emergency Contact'),
-                keyboardType: TextInputType.phone,
-                validator: (value) {
-                  if (value == null || value.trim().isEmpty) {
-                    return 'Emergency contact is required';
-                  }
-                  return null;
-                },
+                      // Submit Button
+                      ElevatedButton(
+                        onPressed: _submitForm,
+                        child: Text('Register Hospital'),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              SizedBox(height: 24),
-
-              // Submit Button
-              ElevatedButton(
-                onPressed: _submitForm,
-                child: Text('Register Hospital'),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 }

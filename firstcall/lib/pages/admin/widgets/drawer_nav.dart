@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class CustomerDrawer extends StatefulWidget {
@@ -15,29 +18,24 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
   String name = " ";
   String email = "";
 
-  // getProfile() async {
-  //   Map<String, String> allValues = await storage.readAll();
-  //   String? userid = allValues["userid"];
-  //   try {
-  //     final Response res = await _authService.getUser(userid!);
-  //     if (mounted) {
-  //       setState(() {
-  //         name = res.data["name"];
-  //         email = res.data["email"];
-  //       });
-  //     }
-  //   } on DioException catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-  //       content: Text("Error occurred,please try again"),
-  //       duration: Duration(milliseconds: 300),
-  //     ));
-  //   }
-  // }
+  final storage = FlutterSecureStorage();
+  getUser() async {
+    print("Getting User");
+    Map<String, String> allValues = await storage.readAll();
+    var user = allValues['user'];
+    print(user);
+    var userMap = jsonDecode(user!);
+    print(userMap);
+    setState(() {
+      name = userMap['name'];
+      email = userMap['email'];
+    });
+  }
 
   @override
   void initState() {
     // TODO: implement initState
-    // getProfile();
+    getUser();
     super.initState();
   }
 
@@ -65,14 +63,6 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             splashColor: Colors.grey,
             onTap: () {
               Navigator.pushNamed(context, "/customer_dashboard");
-            },
-          ),
-          ListTile(
-            leading: const Icon(Icons.notes_rounded),
-            title: const Text("My Orders"),
-            splashColor: Colors.grey,
-            onTap: () {
-              Navigator.pushNamed(context, "/myorders_customers");
             },
           ),
           ListTile(
@@ -123,9 +113,9 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             title: const Text("Logout"),
             splashColor: Colors.grey,
             onTap: () async {
-              // await storage.delete(key: "token");
-              // Navigator.of(context).pushNamedAndRemoveUntil(
-              //     '/login', (Route<dynamic> route) => false);
+              await storage.delete(key: "token");
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/login', (Route<dynamic> route) => false);
             },
           ),
         ]),

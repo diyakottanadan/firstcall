@@ -1,52 +1,32 @@
-const mongoose= require('mongoose');
-var hospitalSchema= new mongoose.Schema({
-   
-    // userid:{
-    //     type:mongoose.Scheme.Types.ObjectId,
-    //     Ref:'user',
-    //     required :true,
-       
-    // },
-    email:{
-        type:String,
-        required:true
+const mongoose = require('mongoose');
+var hospitalSchema = new mongoose.Schema({
+    country: {
+        type: String,
+        default: "India"
     },
-    password:{
-        type:String,
-        required:true
+    district: {
+        type: String,
+        required: true
     },
-    country:{
-        type:String,
-        required:true
+    state: {
+        type: String,
+        default: "Kerala"
     },
-    district:{
-        type:String,
-        required:true
+    city: {
+        type: String,
+        required: true,
     },
-    state:{
-        type:Number,
-        required :true,
+    license: {
+        type: String,
+        required: true,
     },
-    city:{
-        type:String,
-        required :true,
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
     },
-    phn:{
-        type:Number,
-        required :true,
-    },
-    license:{
-        type:String,
-        required :true,
-    },
-
-     userid:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-      },
-      datetime:{
-        type:Date,
-        default:Date.now
-      }
+    status: {
+        type: String,
+        default: "pending"
+    }
 })
-module.exports = mongoose.model('Hospital',hospitalSchema);
+module.exports = mongoose.model('Hospital', hospitalSchema);

@@ -7,10 +7,6 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRoutes=require('./routes/user-routes');
-const policeRoutes=require('./routes/police-routes');
-const hospitalRoutes=require('./routes/hospital-routes');
-const rescueRoutes=require('./routes/rescue-routes');
-const forestRoutes=require('./routes/forest-routes');
 
 //db coonection
 mongoose
@@ -22,14 +18,10 @@ mongoose
 })
 
 //Middlewares
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit:'10mb'}));
 app.use(cookieParser());
 app.use(cors());
 app.use('/api',userRoutes);
-app.use('/api',policeRoutes);
-app.use('/api',hospitalRoutes);
-app.use('/api',rescueRoutes);
-app.use('/api',forestRoutes);
 
 app.get('/',(req,res)=>{
     res.send('hello world')

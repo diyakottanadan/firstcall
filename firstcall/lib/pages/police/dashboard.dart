@@ -1,14 +1,14 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 
-class StudentDashboard extends StatefulWidget {
-  const StudentDashboard({super.key});
+class PoliceDashboard extends StatefulWidget {
+  const PoliceDashboard({super.key});
 
   @override
-  State<StudentDashboard> createState() => _StudentDashboardState();
+  State<PoliceDashboard> createState() => _PoliceDashboardState();
 }
 
-class _StudentDashboardState extends State<StudentDashboard> {
+class _PoliceDashboardState extends State<PoliceDashboard> {
   // ShopService _service = ShopService();
   List<String> items = [];
   bool isLoading = false;

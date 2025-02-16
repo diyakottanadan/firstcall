@@ -1,6 +1,9 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
+import 'package:firstcall/services/userservice.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -14,6 +17,8 @@ class _LoginPageState extends State<LoginPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _obscurePassword = true;
+  UserService _userService = UserService();
+  final storage = FlutterSecureStorage();
 
   Future<void> _login() async {
     var userdata = jsonEncode({
@@ -21,13 +26,43 @@ class _LoginPageState extends State<LoginPage> {
       "password": _passwordController.text,
     });
     print(userdata);
-    if (_emailController.text == "customer@gmail.com") {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/studentpage', (route) => false);
-    } else if (_emailController.text == "college@gmail.com") {
-      Navigator.pushNamedAndRemoveUntil(
-          context, '/collegepage', (route) => false);
+
+    try {
+      final response = await _userService.loginUser(userdata);
+      print(response.data);
+      await storage.write(key: "user", value: jsonEncode(response.data));
+      if (response.data['usertype'] == "user") {
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/customer", (route) => false);
+      } else if (response.data['usertype'] == "police") {
+        Navigator.pushNamedAndRemoveUntil(context, "/police", (route) => false);
+      } else if (response.data['usertype'] == "hospital") {
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/hospital", (route) => false);
+      } else if (response.data['usertype'] == "rescue") {
+        Navigator.pushNamedAndRemoveUntil(context, "/rescue", (route) => false);
+      } else if (response.data['usertype'] == "workshop") {
+        Navigator.pushNamedAndRemoveUntil(
+            context, "/workshop", (route) => false);
+      } else if (response.data['usertype'] == "admin") {
+        Navigator.pushNamedAndRemoveUntil(context, "/admin", (route) => false);
+      }
+    } on DioException catch (e) {
+      print(e.response?.data);
+      String message = e.response?.data["message"];
+      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(message),
+        duration: Duration(milliseconds: 1000),
+      ));
     }
+
+    // if (_emailController.text == "customer@gmail.com") {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //       context, '/studentpage', (route) => false);
+    // } else if (_emailController.text == "college@gmail.com") {
+    //   Navigator.pushNamedAndRemoveUntil(
+    //       context, '/collegepage', (route) => false);
+    // }
   }
 
   @override

@@ -1,52 +1,24 @@
-const mongoose= require('mongoose');
-var rescueSchema= new mongoose.Schema({
-   
-    // userid:{
-    //     type:mongoose.Scheme.Types.ObjectId,
-    //     Ref:'user',
-    //     required :true,
-       
-    // },
-    email:{
-        type:String,
-        required:true
+const mongoose = require('mongoose');
+var rescueSchema = new mongoose.Schema({
+    country: {
+        type: String,
+        default: "India"
     },
-    password:{
-        type:String,
-        required:true
+    district: {
+        type: String,
+        required: true
     },
-    country:{
-        type:String,
-        required:true
+    state: {
+        type: String,
+        default: "Kerala"
     },
-    district:{
-        type:String,
-        required:true
+    city: {
+        type: String,
+        required: true,
     },
-    state:{
-        type:Number,
-        required :true,
-    },
-    city:{
-        type:String,
-        required :true,
-    },
-    phn:{
-        type:Number,
-        required :true,
-    },
-    license:{
-        type:String,
-        required :true,
-    },
-
-     userid:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:'User'
-      },
-      datetime:{
-        type:Date,
-        default:Date.now
-      }
+    userid: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 })
-module.exports = mongoose.model('Rescue',rescueSchema);
+module.exports = mongoose.model('Rescue', rescueSchema);

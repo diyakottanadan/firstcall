@@ -4,15 +4,15 @@ import 'widgets/bottom_navigation.dart';
 import 'widgets/drawer_nav.dart';
 
 final pages = [
-  StudentDashboard(),
-  StudentDashboard(),
-  StudentDashboard(),
-  StudentDashboard()
+  RescueDashboard(),
+  RescueDashboard(),
+  RescueDashboard(),
+  RescueDashboard()
 ];
-final tites = ["Home", "Auction", "Account", "Cart"];
+final tites = ["Home", "Home", "Home", "Home"];
 
-class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+class RescueMainPage extends StatelessWidget {
+  const RescueMainPage({super.key});
 
   @override
   Widget build(BuildContext context) {
