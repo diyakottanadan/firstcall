@@ -43,13 +43,13 @@ class _LoginPageState extends State<LoginPage> {
             key: _formKey,
             child: Column(
               children: [
-                Container(
-                  child: Container(
-                    width: 100.0, // Set the width of the circle
-                    height: 100.0, // Set the height of the circle
-                    child: Image.asset('assets/Logo.jpg', fit: BoxFit.cover),
-                  ),
-                ),
+                // Container(
+                //   child: Container(
+                //     width: 100.0, // Set the width of the circle
+                //     height: 100.0, // Set the height of the circle
+                //     child: Image.asset('assets/Logo.jpg', fit: BoxFit.cover),
+                //   ),
+                // ),
                 SizedBox(height: 16.0),
                 TextFormField(
                   controller: _emailController,
