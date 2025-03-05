@@ -24,7 +24,7 @@ class AdminMainPage extends StatelessWidget {
             title: Text(tites[index]),
             actions: [],
           ),
-          bottomNavigationBar: const CustomerBottomNav(),
+          // bottomNavigationBar: const CustomerBottomNav(),
           body: pages[index],
           drawer: const CustomerDrawer(),
         );

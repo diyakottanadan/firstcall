@@ -97,3 +97,50 @@ exports.login = (req, res) => {
         }
     })
 }
+
+exports.getAllPendingHospital = (req,res)=>{
+    Hospital.find({status:"pending"}).populate('userid').then((hospital)=>{
+        if(hospital){
+            return res.status(200).json(hospital);
+        }
+        else{
+            return res.status(500).json({message:"Internal error"});
+        }
+    })
+}
+
+//get all pending workshop
+exports.getAllPendingWorkshop = (req,res)=>{
+    Workshop.find({status:"pending"}).populate('userid').then((workshop)=>{
+        if(workshop){
+            return res.status(200).json(workshop);
+        }
+        else{
+            return res.status(500).json({message:"Internal error"});
+        }
+    })
+}
+
+//approve hospital
+exports.approveHospital = (req,res)=>{
+    Hospital.findByIdAndUpdate(req.body._id,{status:req.body.status}).then((hospital)=>{
+        if(hospital){
+            return res.status(200).json(hospital);
+        }
+        else{
+            return res.status(500).json({message:"Internal error"});
+        }
+    })
+}
+
+//approve workshop
+exports.approveWorkshop = (req,res)=>{
+    Workshop.findByIdAndUpdate(req.body._id,{status:req.body.status}).then((workshop)=>{
+        if(workshop){
+            return res.status(200).json(workshop);
+        }
+        else{
+            return res.status(500).json({message:"Internal error"});
+        }
+    })
+}

@@ -69,7 +69,7 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             title: const Text("Add Complaint"),
             splashColor: Colors.grey,
             onTap: () async {
-              Navigator.pushNamed(context, "/add_complaint");
+              // Navigator.pushNamed(context, "/add_complaint");
             },
           ),
           ListTile(
@@ -77,7 +77,7 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             title: const Text("My Complaint"),
             splashColor: Colors.grey,
             onTap: () async {
-              Navigator.pushNamed(context, "/view_my_complaint");
+              // Navigator.pushNamed(context, "/view_my_complaint");
             },
           ),
           ListTile(
@@ -85,7 +85,7 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             title: const Text("My Profile"),
             splashColor: Colors.grey,
             onTap: () async {
-              Navigator.pushNamed(context, "/profile");
+              // Navigator.pushNamed(context, "/profile");
             },
           ),
           const Divider(

@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRoutes=require('./routes/user-routes');
+const accidentRoutes=require('./routes/accident-routes');
 
 //db coonection
 mongoose
@@ -22,6 +23,7 @@ app.use(bodyParser.json({limit:'10mb'}));
 app.use(cookieParser());
 app.use(cors());
 app.use('/api',userRoutes);
+app.use('/api',accidentRoutes);
 
 app.get('/',(req,res)=>{
     res.send('hello world')
