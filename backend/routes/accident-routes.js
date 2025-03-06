@@ -15,4 +15,7 @@ router.get('/get-accident-by-policeid', accidentController.getAccidentReportByPo
 // Route to reply to an accident report
 router.post('/add-reply-accident', accidentController.replyToAccidentReport);
 
+// Route to get police by district
+router.get('/get-police-by-district', accidentController.getPoliceByDistrict);
+
 module.exports = router;

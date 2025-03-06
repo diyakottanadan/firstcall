@@ -61,7 +61,7 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
             title: const Text("Home"),
             splashColor: Colors.grey,
             onTap: () {
-              Navigator.pushNamed(context, "/customer_dashboard");
+              Navigator.pushNamed(context, "/customer");
             },
           ),
           ListTile(

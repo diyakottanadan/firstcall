@@ -24,6 +24,9 @@ var accidentReportSchema=mongoose.Schema({
     reply:{
         type:String,
     },
+    location:{
+        type:String,
+    },
     timestamp:{
         type:String,
         default:Date.now()

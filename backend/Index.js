@@ -8,6 +8,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const userRoutes=require('./routes/user-routes');
 const accidentRoutes=require('./routes/accident-routes');
+const alertRoutes = require('./routes/alert-routes');
 
 //db coonection
 mongoose
@@ -24,6 +25,7 @@ app.use(cookieParser());
 app.use(cors());
 app.use('/api',userRoutes);
 app.use('/api',accidentRoutes);
+app.use('/api',alertRoutes);
 
 app.get('/',(req,res)=>{
     res.send('hello world')
