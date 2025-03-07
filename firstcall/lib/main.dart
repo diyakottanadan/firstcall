@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
         '/workshop': (context) => WorkshopMainPage(),
         '/forest': (context) => ForestMainPage(),
         '/admin': (context) => AdminMainPage(),
+        
       },
     );
   }

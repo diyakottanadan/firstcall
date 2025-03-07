@@ -27,7 +27,7 @@ exports.getAlertByHospitalId = (req, res) => {
 //get alert by district
 exports.getAlertByDistrict = (req, res) => {
     console.log(req.body.district);
-    Alert.find({ district: req.body.district }).then((alert) => {
+    Alert.find({ district: req.body.district }).populate('hospitalid').then((alert) => {
         if (alert) {
             return res.status(200).json(alert);
         }
