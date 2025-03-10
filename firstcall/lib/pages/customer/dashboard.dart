@@ -2,7 +2,9 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:firstcall/pages/customer/myreports.dart';
+import 'package:firstcall/pages/customer/myworkshoprequest.dart';
 import 'package:firstcall/pages/customer/reportaccident.dart';
+import 'package:firstcall/pages/customer/viewworkshops.dart';
 import 'package:firstcall/services/alertservices.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -68,12 +70,8 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: ListView(
         children: [
-          Container(
-            alignment: Alignment.topLeft,
-            padding: const EdgeInsets.all(20),
-          ),
           ListTile(
             leading: const Icon(Icons.report),
             title: const Text('Report Accident'),
@@ -90,6 +88,26 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => MyReport()),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text('Workshops'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ViewWorkshop()),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.settings_applications_sharp),
+            title: const Text('My Workshops Request'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MyWorkshopRequest()),
               );
             },
             trailing: Icon(Icons.arrow_forward_ios),

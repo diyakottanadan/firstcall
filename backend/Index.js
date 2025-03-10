@@ -9,6 +9,7 @@ const cors = require("cors");
 const userRoutes=require('./routes/user-routes');
 const accidentRoutes=require('./routes/accident-routes');
 const alertRoutes = require('./routes/alert-routes');
+const workshopRoutes=require('./routes/workshop-routes');
 
 //db coonection
 mongoose
@@ -26,6 +27,7 @@ app.use(cors());
 app.use('/api',userRoutes);
 app.use('/api',accidentRoutes);
 app.use('/api',alertRoutes);
+app.use('/api',workshopRoutes);
 
 app.get('/',(req,res)=>{
     res.send('hello world')

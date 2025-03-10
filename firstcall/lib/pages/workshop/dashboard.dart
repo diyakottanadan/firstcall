@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:firstcall/pages/police/accidentreports.dart';
+import 'package:firstcall/pages/workshop/request.dart';
 import 'package:flutter/material.dart';
 
 class WorkshopDashboard extends StatefulWidget {
@@ -29,6 +31,16 @@ class _WorkshopDashboardState extends State<WorkshopDashboard> {
           Container(
             alignment: Alignment.topLeft,
             padding: const EdgeInsets.all(20),
+          ),
+          ListTile(
+            leading: const Icon(Icons.work_history_sharp),
+            title: const Text('Requests'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => Requests()),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
           ),
         ],
       ),
