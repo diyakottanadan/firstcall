@@ -8,7 +8,8 @@ import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ReportAccident extends StatefulWidget {
-  const ReportAccident({super.key});
+  const ReportAccident({super.key, required this.to});
+  final String to;
 
   @override
   State<ReportAccident> createState() => _ReportAccidentState();
@@ -65,13 +66,32 @@ class _ReportAccidentState extends State<ReportAccident> {
 
   Future<void> getPoliceByDistrict() async {
     var district = jsonEncode({"district": _locationController.text});
+    final response;
     try {
-      final response = await _accidentService.getPoliceByDistrict(district);
-      print(response.data);
-      if (mounted) {
-        setState(() {
-          police = response.data;
-        });
+      if (widget.to == "police") {
+        final response = await _accidentService.getPoliceByDistrict(district);
+        print(response.data);
+        if (mounted) {
+          setState(() {
+            police = response.data;
+          });
+        }
+      } else if (widget.to == "forest") {
+        final response = await _accidentService.getForestByDistrict(district);
+        print(response.data);
+        if (mounted) {
+          setState(() {
+            police = response.data;
+          });
+        }
+      } else if (widget.to == "rescue") {
+        final response = await _accidentService.getRescueByDistrict(district);
+        print(response.data);
+        if (mounted) {
+          setState(() {
+            police = response.data;
+          });
+        }
       }
     } on DioException catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
@@ -205,10 +225,11 @@ class _ReportAccidentState extends State<ReportAccident> {
                           policeid = value!;
                         });
                       },
-                      decoration: const InputDecoration(labelText: 'Police'),
+                      decoration:
+                          const InputDecoration(labelText: 'Service Provider'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please select a police station';
+                          return 'Please select a service provider';
                         }
                         return null;
                       },

@@ -36,4 +36,16 @@ class AccidentService {
         await dio.get("${url}get-police-by-district", data: district);
     return response;
   }
+
+  Future<Response> getForestByDistrict(String district) async {
+    final response =
+        await dio.get("${url}get-forest-by-district", data: district);
+    return response;
+  }
+
+  Future<Response> getRescueByDistrict(String district) async {
+    final response =
+        await dio.get("${url}get-rescue-by-district", data: district);
+    return response;
+  }
 }

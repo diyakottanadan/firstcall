@@ -18,4 +18,10 @@ router.post('/add-reply-accident', accidentController.replyToAccidentReport);
 // Route to get police by district
 router.get('/get-police-by-district', accidentController.getPoliceByDistrict);
 
+// Route to get forest by district
+router.get('/get-forest-by-district', accidentController.getForestByDistrict);
+
+// Route to get rescu by district
+router.get('/get-rescue-by-district', accidentController.getRescueByDistrict);
+
 module.exports = router;

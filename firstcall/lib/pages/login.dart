@@ -34,14 +34,18 @@ class _LoginPageState extends State<LoginPage> {
       if (response.data['usertype'] == "user") {
         Navigator.pushNamedAndRemoveUntil(
             context, "/customer", (route) => false);
-      } else if (response.data['usertype'] == "police") {
+      } else if (response.data['usertype'] == "police" ||
+          response.data['usertype'] == "forest" ||
+          response.data['usertype'] == "rescue") {
         Navigator.pushNamedAndRemoveUntil(context, "/police", (route) => false);
       } else if (response.data['usertype'] == "hospital") {
         Navigator.pushNamedAndRemoveUntil(
             context, "/hospital", (route) => false);
-      } else if (response.data['usertype'] == "rescue") {
-        Navigator.pushNamedAndRemoveUntil(context, "/rescue", (route) => false);
-      } else if (response.data['usertype'] == "workshop") {
+      }
+      // else if (response.data['usertype'] == "rescue") {
+      //   Navigator.pushNamedAndRemoveUntil(context, "/rescue", (route) => false);
+      // }
+      else if (response.data['usertype'] == "workshop") {
         Navigator.pushNamedAndRemoveUntil(
             context, "/workshop", (route) => false);
       } else if (response.data['usertype'] == "admin") {

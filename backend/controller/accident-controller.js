@@ -1,6 +1,8 @@
 const AccidentReport = require("../models/accidentreport");
 const User = require("../models/user");
 const Police = require("../models/police");
+const Forest = require("../models/forest");
+const Rescue = require("../models/rescue");
 
 exports.addAccidentReport = (req, res) => {
     //console.log(req.body);
@@ -67,5 +69,33 @@ exports.getPoliceByDistrict = (req, res) => {
     })
 }
 
+//get forest by district
+exports.getForestByDistrict = (req, res) => {
+    console.log(req.body.district);
+    Forest.find({
+        district: req.body.district
+    }).populate('userid').then((forest) => {
+        if (forest) {
+            return res.status(200).json(forest);
+        }
+        else {
+            return res.status(500).json({ message: "Internal error" });
+        }
+    })
+}
 
+//get rescue by district
+exports.getRescueByDistrict = (req, res) => {
+    console.log(req.body.district);
+    Rescue.find({
+        district: req.body.district
+    }).populate('userid').then((rescue) => {
+        if (rescue) {
+            return res.status(200).json(rescue);
+        }
+        else {
+            return res.status(500).json({ message: "Internal error" });
+        }
+    })
+}
 

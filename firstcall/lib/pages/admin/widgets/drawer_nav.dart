@@ -81,14 +81,14 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
           //     Navigator.pushNamed(context, "/view_my_complaint");
           //   },
           // ),
-          ListTile(
-            leading: const Icon(Icons.account_circle),
-            title: const Text("My Profile"),
-            splashColor: Colors.grey,
-            onTap: () async {
-              //  Navigator.pushNamed(context, "/profile");
-            },
-          ),
+          // ListTile(
+          //   leading: const Icon(Icons.account_circle),
+          //   title: const Text("My Profile"),
+          //   splashColor: Colors.grey,
+          //   onTap: () async {
+          //     //  Navigator.pushNamed(context, "/profile");
+          //   },
+          // ),
           const Divider(
             color: Colors.black,
           ),

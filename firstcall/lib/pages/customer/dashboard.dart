@@ -74,10 +74,33 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
         children: [
           ListTile(
             leading: const Icon(Icons.report),
-            title: const Text('Report Accident'),
+            title: const Text('Report Accident - Police'),
             onTap: () {
               Navigator.of(context).push(
-                MaterialPageRoute(builder: (context) => ReportAccident()),
+                MaterialPageRoute(
+                    builder: (context) => ReportAccident(to: "police")),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.report),
+            title: const Text('Report Accident - Forest'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => ReportAccident(to: "forest")),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.report),
+            title: const Text('Report Accident - Rescue'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                    builder: (context) => ReportAccident(to: "rescue")),
               );
             },
             trailing: Icon(Icons.arrow_forward_ios),
