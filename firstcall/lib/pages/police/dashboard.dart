@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:firstcall/pages/police/accidentreports.dart';
+import 'package:firstcall/pages/police/certificate.dart';
 import 'package:flutter/material.dart';
 
 class PoliceDashboard extends StatefulWidget {
@@ -37,6 +38,16 @@ class _PoliceDashboardState extends State<PoliceDashboard> {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => AccidentReports()),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.list),
+            title: const Text('Certificates'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => Certificate()),
               );
             },
             trailing: Icon(Icons.arrow_forward_ios),

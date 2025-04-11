@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firstcall/pages/customer/applycertificate.dart';
+import 'package:firstcall/pages/customer/mycetificate.dart';
 import 'package:firstcall/pages/customer/myreports.dart';
 import 'package:firstcall/pages/customer/myworkshoprequest.dart';
 import 'package:firstcall/pages/customer/reportaccident.dart';
@@ -131,6 +133,26 @@ class _CustomerDashboardState extends State<CustomerDashboard> {
             onTap: () {
               Navigator.of(context).push(
                 MaterialPageRoute(builder: (context) => MyWorkshopRequest()),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.app_registration_rounded),
+            title: const Text('Apply for Certificate'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ApplyCertificatePage()),
+              );
+            },
+            trailing: Icon(Icons.arrow_forward_ios),
+          ),
+          ListTile(
+            leading: const Icon(Icons.list),
+            title: const Text('My Certificate'),
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => MyCertificate()),
               );
             },
             trailing: Icon(Icons.arrow_forward_ios),

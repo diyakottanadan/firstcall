@@ -1,4 +1,5 @@
 import 'package:firstcall/pages/admin/mainpage.dart';
+import 'package:firstcall/pages/customer/applycertificate.dart';
 import 'package:firstcall/pages/forest/mainpage.dart';
 import 'package:firstcall/pages/forestform.dart';
 import 'package:firstcall/pages/hospital/mainpage.dart';
@@ -66,7 +67,7 @@ class MyApp extends StatelessWidget {
         '/workshop': (context) => WorkshopMainPage(),
         '/forest': (context) => ForestMainPage(),
         '/admin': (context) => AdminMainPage(),
-        
+        '/apply_certificate': (context) => ApplyCertificatePage(),
       },
     );
   }
