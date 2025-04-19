@@ -11,6 +11,7 @@ const accidentRoutes=require('./routes/accident-routes');
 const alertRoutes = require('./routes/alert-routes');
 const workshopRoutes=require('./routes/workshop-routes');
 const certificateRoutes=require('./routes/certificate-routes');
+const complaintRoutes=require('./routes/complaint-routes');
 
 //db coonection
 mongoose
@@ -30,6 +31,7 @@ app.use('/api',accidentRoutes);
 app.use('/api',alertRoutes);
 app.use('/api',workshopRoutes);
 app.use('/api',certificateRoutes);
+app.use('/api',complaintRoutes);
 
 app.get('/',(req,res)=>{
     res.send('hello world')

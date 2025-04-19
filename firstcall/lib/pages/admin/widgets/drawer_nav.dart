@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:firstcall/pages/viewallcomplaint.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 // import 'package:flutter_secure_storage/flutter_secure_storage.dart';
@@ -65,6 +66,17 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
               // Navigator.pushNamed(context, "/customer_dashboard");
             },
           ),
+          ListTile(
+            leading: const Icon(Icons.mail),
+            title: const Text("Complaints"),
+            splashColor: Colors.grey,
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => ViewAllComplaint()),
+              );
+            },
+          ),
+
           // ListTile(
           //   leading: const Icon(Icons.email),
           //   title: const Text("Add Complaint"),
@@ -81,14 +93,14 @@ class _CustomerDrawerState extends State<CustomerDrawer> {
           //     Navigator.pushNamed(context, "/view_my_complaint");
           //   },
           // ),
-          // ListTile(
-          //   leading: const Icon(Icons.account_circle),
-          //   title: const Text("My Profile"),
-          //   splashColor: Colors.grey,
-          //   onTap: () async {
-          //     //  Navigator.pushNamed(context, "/profile");
-          //   },
-          // ),
+          ListTile(
+            leading: const Icon(Icons.account_circle),
+            title: const Text("My Profile"),
+            splashColor: Colors.grey,
+            onTap: () async {
+              Navigator.pushNamed(context, "/profile");
+            },
+          ),
           const Divider(
             color: Colors.black,
           ),

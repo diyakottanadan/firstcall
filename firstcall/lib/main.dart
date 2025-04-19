@@ -1,3 +1,4 @@
+import 'package:firstcall/pages/addcomplaint.dart';
 import 'package:firstcall/pages/admin/mainpage.dart';
 import 'package:firstcall/pages/customer/applycertificate.dart';
 import 'package:firstcall/pages/forest/mainpage.dart';
@@ -6,8 +7,11 @@ import 'package:firstcall/pages/hospital/mainpage.dart';
 import 'package:firstcall/pages/hospitalform.dart';
 import 'package:firstcall/pages/police/mainpage.dart';
 import 'package:firstcall/pages/policeform.dart';
+import 'package:firstcall/pages/profile.dart';
 import 'package:firstcall/pages/rescue/mainpage.dart';
 import 'package:firstcall/pages/rescueform.dart';
+import 'package:firstcall/pages/viewallcomplaint.dart';
+import 'package:firstcall/pages/viewmycomplaint.dart';
 import 'package:firstcall/pages/workshop/mainpage.dart';
 import 'package:firstcall/pages/workshopform.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +72,10 @@ class MyApp extends StatelessWidget {
         '/forest': (context) => ForestMainPage(),
         '/admin': (context) => AdminMainPage(),
         '/apply_certificate': (context) => ApplyCertificatePage(),
+        '/add_complaint': (context) => const AddComplaint(),
+        '/view_all_complaint': (context) => const ViewAllComplaint(),
+        '/view_my_complaint': (context) => const ViewMyComplaint(),
+        '/profile': (context) => ProfilePage(),
       },
     );
   }
